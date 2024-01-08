@@ -42,8 +42,29 @@ public class mainView extends Application {
 		}
 		
 		Text welcome = new Text("Bienvenue");
+		
 		Button btnProfil = new Button("Votre Profile");
+		btnProfil.setOnMouseClicked((evt)->{
+			stage.hide();
+			profilView profil = new profilView();
+			try {
+				Stage profilStage = new Stage();
+		        profil.start(profilStage);
+		        profilStage.setOnCloseRequest(event -> stage.show());
+			}
+			catch (Exception e) { e.printStackTrace(); }
+		});
+		
 		Button btnDeconnect = new Button("Se déconnecter");
+		btnDeconnect.setOnMouseClicked((evt)->{
+			stage.close();
+			loginView login = new loginView();
+			try {
+				login.start(new Stage());
+			}
+			catch (Exception e) { e.printStackTrace(); }
+		});
+		
 		VBox vbox1 = new VBox();
 		vbox1.setAlignment(Pos.CENTER);
 		vbox1.setSpacing(10);
@@ -81,7 +102,7 @@ public class mainView extends Application {
 					new Tache(76329483,"tache 3","descrition 3",projet)
 				);
 		
-		TableColumn<Tache, String> designation = new TableColumn<>("Désignation");
+		TableColumn<Tache, String> designation = new TableColumn<>("Désignation de la tâche");
 		designation.setMinWidth(100);
 		designation.setPrefWidth(150);
 		designation.setMaxWidth(200);
@@ -220,7 +241,7 @@ public class mainView extends Application {
 		stage.setWidth(800);
 		stage.show();
 	}
-    public static void main(String[] args) {
+	public static void main(String[] args) {
         launch();
     }
 }

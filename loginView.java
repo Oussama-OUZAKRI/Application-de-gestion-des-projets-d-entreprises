@@ -3,6 +3,8 @@ package core;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -24,6 +26,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class loginView extends Application{
+	
 	@Override
 	public void start(Stage stage) throws Exception {
 		
@@ -62,11 +65,37 @@ public class loginView extends Application{
 		btn.setOnMouseClicked((evt)->{
 			String user=tf1.getText();
 			String passwd=tf2.getText();
-			System.out.println("Votre identifiant est : "+user);
-			System.out.println("Votre mot de passe est : "+passwd);
-			vbox.getChildren().removeAll(tf1,tf2,hbox,btn);
-			Text loggin = new Text("You are successfully logged");
-			vbox.getChildren().add(loggin);
+			System.out.println("User: " + user);
+			System.out.println("Password: " + passwd);
+			System.out.println();
+			LoginJDBC login = new LoginJDBC();
+			ArrayList<String[]> list = login.verifyUser();
+			try {
+				if (rdBtn1.isSelected()) {
+					for (int i=0; i<list.size(); i++) {
+						String[] tab = list.get(i);
+						if (tab[7].equals(user) && tab[8].equals(passwd) && tab[9].equals("isManager")) {
+							Session.setutilisateurConnecte(tab);
+							stage.close();
+							mainView main = new mainView();
+							main.start(new Stage());
+						}
+					}
+				}
+				if (rdBtn2.isSelected()) {
+					for (int i=0; i<list.size(); i++) {
+						String[] tab = list.get(i);
+						if (tab[7].equals(user) && tab[8].equals(passwd) && tab[9].equals("isIntervenant")) {
+							Session.setutilisateurConnecte(tab);
+							stage.close();
+							mainView main = new mainView();
+							main.start(new Stage());
+						}
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		});
 		
 		vbox.getChildren().addAll(imageview,tf1,tf2,hbox,btn);
@@ -77,7 +106,7 @@ public class loginView extends Application{
 		BackgroundFill backgroundFill = new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, javafx.geometry.Insets.EMPTY);
 		Background background = new Background(backgroundFill);
 		vbox.setBackground(background);
-		
+
 		Scene scene = new Scene(vbox);
 		
 		stage.setScene(scene);

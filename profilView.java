@@ -21,6 +21,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class profilView extends Application {
+	String[] session = Session.getutilisateurConnecte();
 	@Override
 	public void start(Stage stage) throws Exception {
 		
@@ -42,32 +43,82 @@ public class profilView extends Application {
 		hbox1.setSpacing(80);
 		hbox1.getChildren().addAll(accueil, modifier);
 		
-		Label nom = new Label("Nom");
-		TextField nomField = new TextField();
-		
 		Label prenom = new Label("Prénom");
 		TextField prenomField = new TextField();
+		prenomField.setText(session[0]);
+		prenomField.setEditable(false);
+		prenomField.setMouseTransparent(true);
+		
+		Label nom = new Label("Nom");
+		TextField nomField = new TextField();
+		nomField.setText(session[1]);
+		nomField.setEditable(false);
+		nomField.setMouseTransparent(true);
 		
 		Label adressePostale = new Label("Adresse Postale");
 		TextField adressePostaleField = new TextField();
+		adressePostaleField.setText(session[2]);
+		adressePostaleField.setEditable(false);
+		adressePostaleField.setMouseTransparent(true);
 		
 		Label numTel = new Label("Numéro de Téléphone");
 		TextField numTelField = new TextField();
+		numTelField.setText(session[3]);
+		numTelField.setEditable(false);
+		numTelField.setMouseTransparent(true);
 		
 		Label adresseEmail = new Label("Adresse Email");
 		TextField adresseEmailField = new TextField();
+		adresseEmailField.setText(session[4]);
+		adresseEmailField.setEditable(false);
+		adresseEmailField.setMouseTransparent(true);
 		
 		Label numCarteIdentite = new Label("N° Carte d'identité");
 		TextField numCarteIdentiteField = new TextField();
+		numCarteIdentiteField.setText(session[5]);
+		numCarteIdentiteField.setEditable(false);
+		numCarteIdentiteField.setMouseTransparent(true);
 		
 		Label numCompteBancaire = new Label("N° Compte Bancaire");
 		TextField numCompteBancaireField = new TextField();
+		numCompteBancaireField.setText(session[6]);
+		numCompteBancaireField.setEditable(false);
+		numCompteBancaireField.setMouseTransparent(true);
 		
 		Label identifiant = new Label("Identifiant");
 		TextField identifiantField = new TextField();
+		identifiantField.setText(session[7]);
+		identifiantField.setEditable(false);
+		identifiantField.setMouseTransparent(true);
+		
 		
 		Label motDePasse = new Label("Mot De Passe");
 		TextField motDePasseField = new TextField();
+		motDePasseField.setText(session[8]);
+		motDePasseField.setEditable(false);
+		motDePasseField.setMouseTransparent(true);
+		
+		modifier.setOnMouseClicked((evt) -> {
+		    prenomField.setEditable(true);
+		    nomField.setEditable(true);
+		    adressePostaleField.setEditable(true);
+		    numTelField.setEditable(true);
+		    adresseEmailField.setEditable(true);
+		    numCarteIdentiteField.setEditable(true);
+		    numCompteBancaireField.setEditable(true);
+		    identifiantField.setEditable(true);
+		    motDePasseField.setEditable(true);
+
+		    prenomField.setMouseTransparent(false);
+		    nomField.setMouseTransparent(false);
+		    adressePostaleField.setMouseTransparent(false);
+		    numTelField.setMouseTransparent(false);
+			adresseEmailField.setMouseTransparent(false);
+			numCarteIdentiteField.setMouseTransparent(false);
+			numCompteBancaireField.setMouseTransparent(false);
+			identifiantField.setMouseTransparent(false);
+			motDePasseField.setMouseTransparent(false);
+		});
 		
 		GridPane grpane = new GridPane();
 		grpane.addRow(0, nom, nomField);
@@ -83,12 +134,33 @@ public class profilView extends Application {
 		grpane.setVgap(20);
 		grpane.setHgap(20);
 		
-		Button enregister = new Button("Enregistrer");
+		Button enregistrer = new Button("Enregistrer");
+		enregistrer.setOnMouseClicked((evt)->{
+			prenomField.setEditable(false);
+			nomField.setEditable(false);
+			adressePostaleField.setEditable(false);
+			numTelField.setEditable(false);
+			adresseEmailField.setEditable(false);
+			numCarteIdentiteField.setEditable(false);
+			numCompteBancaireField.setEditable(false);
+			identifiantField.setEditable(false);
+			motDePasseField.setEditable(false);
+			
+			prenomField.setMouseTransparent(true);
+		    nomField.setMouseTransparent(true);
+		    adressePostaleField.setMouseTransparent(true);
+		    numTelField.setMouseTransparent(true);
+			adresseEmailField.setMouseTransparent(true);
+			numCarteIdentiteField.setMouseTransparent(true);
+			numCompteBancaireField.setMouseTransparent(true);
+			identifiantField.setMouseTransparent(true);
+			motDePasseField.setMouseTransparent(true);
+		});
 		
 		VBox vbox1 = new VBox();
 		vbox1.setAlignment(Pos.CENTER);
 		vbox1.setSpacing(50);
-		vbox1.getChildren().addAll(hbox1,grpane,enregister);
+		vbox1.getChildren().addAll(hbox1,grpane,enregistrer);
 		
 		BackgroundFill backgroundFill = new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, javafx.geometry.Insets.EMPTY);
 		Background background = new Background(backgroundFill);
