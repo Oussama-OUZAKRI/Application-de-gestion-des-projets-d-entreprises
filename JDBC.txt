@@ -1,0 +1,31 @@
+CREATE DATABASE execusync;
+
+USE execusync;
+
+CREATE TABLE appuser (
+	user_id INTEGER NOT NULL AUTO_INCREMENT,
+	user_firstName VARCHAR(50) NOT NULL,
+	user_lastName VARCHAR(50) NOT NULL,
+	user_address TEXT NOT NULL,
+	user_phone BIGINT NOT NULL,
+	user_mail TEXT NOT NULL,
+	user_CIN VARCHAR(8) NOT NULL,user_credential BIGINT NOT NULL,
+	user_login VARCHAR(20) NOT NULL,
+	user_password VARCHAR(20) NOT NULL,
+	user_isManager BOOLEAN NOT NULL,
+	user_isIntervenant BOOLEAN NOT NULL,
+	PRIMARY KEY(user_id)
+);
+
+
+INSERT INTO appuser (user_firstName,user_lastName,user_address,user_phone,user_mail,user_CIN,user_credential,user_login,user_password,user_isManager,user_isIntervenant) VALUES ("Oussama","OUZAKRI","04 LOT EL HANAE",0761814362,"oussamaouzakri@gmail.com","BZ951862",1597356248,"oussOUZA","oussama951",true,false);
+
+CREATE TABLE projects (
+  id int NOT NULL AUTO_INCREMENT,
+  name varchar(45) NOT NULL,
+  start_date date DEFAULT NULL,
+  end_date date DEFAULT NULL,
+  PRIMARY KEY (id),
+  UNIQUE KEY id_UNIQUE (id),
+  UNIQUE KEY name_UNIQUE (name)
+) ;
