@@ -27,8 +27,9 @@ public class LoginJDBC {
 			Statement st = conn.createStatement();
 			String requete = "SELECT * FROM appuser";
 			ResultSet resultat = st.executeQuery(requete);
-			String[] tab = new String[10];
+			String[] tab = new String[11];
 			while (resultat.next()) {
+				tab[10]= resultat.getString("user_id");
 				tab[0] = resultat.getString("user_firstName");
 				tab[1] = resultat.getString("user_lastName");
 				tab[2] = resultat.getString("user_address");

@@ -26,8 +26,13 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.beans.property.SimpleStringProperty;
 
 public class mainView extends Application {
+	
+	private String[] session = Session.getutilisateurConnecte();
+	private SimpleStringProperty employeeCountProperty = new SimpleStringProperty("Vous avez 0 employés");
+	
 	@Override
 	public void start(Stage stage) throws Exception {
 		
@@ -41,17 +46,12 @@ public class mainView extends Application {
 		    System.err.println("Resource not found: " + iconeFile.getAbsolutePath());
 		}
 		
-		Text welcome = new Text("Bienvenue");
+		Text welcome = new Text("Bienvenue "+session[0]);
 		
 		Button btnProfil = new Button("Votre Profile");
 		btnProfil.setOnMouseClicked((evt)->{
-			stage.hide();
 			profilView profil = new profilView();
-			try {
-				Stage profilStage = new Stage();
-		        profil.start(profilStage);
-		        profilStage.setOnCloseRequest(event -> stage.show());
-			}
+			try { profil.start(new Stage()); }
 			catch (Exception e) { e.printStackTrace(); }
 		});
 		
@@ -97,9 +97,9 @@ public class mainView extends Application {
 		Responsable respo = new Responsable("Oussama","OUZAKRI","04 LOT EL HANAE",0761,"oussamaouzakri@gmail.com","J951426",789654123,"oussama","oussa3002");
 		Projet projet = new Projet(147,"projet 1",status.EN_COURS,respo,new ArrayList<Tache>());
 		ObservableList<Tache> list = FXCollections.observableArrayList(
-					new Tache(81456293,"tache 1","descrition 1",projet),
-					new Tache(95138742,"tache 2","descrition 2",projet),
-					new Tache(76329483,"tache 3","descrition 3",projet)
+					new Tache(81456293,"tache 1","description 1",projet),
+					new Tache(95138742,"tache 2","description 2",projet),
+					new Tache(76329483,"tache 3","description 3",projet)
 				);
 		
 		TableColumn<Tache, String> designation = new TableColumn<>("Désignation de la tâche");
@@ -130,16 +130,13 @@ public class mainView extends Application {
 		tableIntervenant.setEditable(true);
 		
 		ObservableList<Intervenant> intervenant = FXCollections.observableArrayList(
-					new Intervenant("Oussama","OUZAKRI","04 LOT EL HANAE",0761,"oussamaouzakri@gmail.com","J951426",789654123,"oussama","oussa3002"),
-					new Intervenant("Oussama","OUZAKRI","04 LOT EL HANAE",0761,"oussamaouzakri@gmail.com","J951426",789654123,"oussama","oussa3002"),
-					new Intervenant("Oussama","OUZAKRI","04 LOT EL HANAE",0761,"oussamaouzakri@gmail.com","J951426",789654123,"oussama","oussa3002")
 				);
 		
 		TableColumn<Intervenant,Integer> id = new TableColumn<>("ID");
 		id.setMinWidth(50);
 		id.setPrefWidth(75);
 		id.setMaxWidth(100);
-		id.setCellValueFactory(new PropertyValueFactory<Intervenant,Integer>(""));
+		id.setCellValueFactory(new PropertyValueFactory<Intervenant,Integer>("id"));
 		
 		TableColumn<Intervenant, String> nom = new TableColumn<>("Nom");
 		nom.setMinWidth(50);
@@ -157,19 +154,21 @@ public class mainView extends Application {
 		tableIntervenant.getColumns().addAll(id,nom,prenom);
 		
 		Label employes = new Label("Employés");
-		Label nbrEmployes = new Label("Vous avez 0 employés");
-		Button tousEmployes = new Button("Tous les employés");
-		Button ajouterEmploye = new Button(" + ");
-		
-		HBox hbox3 = new HBox();
-		hbox3.setAlignment(Pos.CENTER);
-		hbox3.setSpacing(10);
-		hbox3.getChildren().addAll(tousEmployes,ajouterEmploye);
-		
+		Label nbrEmployes = new Label();
+		nbrEmployes.textProperty().bind(employeeCountProperty);
+		Button ajouterEmploye = new Button(" Ajouter un employé ");
+		ajouterEmploye.setOnMouseClicked((evt)->{
+			AddIntervenant addEmployee = new AddIntervenant();
+			try { addEmployee.start(new Stage()); }
+			catch (Exception e) {e.printStackTrace(); }
+			Intervenant newEmployee = addEmployee.getNewEmployee();
+			intervenant.add(newEmployee);
+			employeeCountProperty.set("Vous avez " + intervenant.size() + " employés");
+		});
 		VBox vbox4 = new VBox();
 		vbox4.setAlignment(Pos.CENTER);
 		vbox4.setSpacing(10);
-		vbox4.getChildren().addAll(employes,nbrEmployes,tableIntervenant,hbox3);
+		vbox4.getChildren().addAll(employes,nbrEmployes,tableIntervenant,ajouterEmploye);
 		
 		TableView<Materiel> tableMateriel = new TableView<>();
 		tableMateriel.setMinSize(225, 200);
@@ -178,9 +177,9 @@ public class mainView extends Application {
 		tableMateriel.setEditable(true);
 		
 		ObservableList<Materiel> materiels = FXCollections.observableArrayList(
-				new Materiel(95486321,"materiel1","type",respo),
-				new Materiel(73648129,"materiel2","type",respo),
-				new Materiel(23784561,"materiel3","type",respo)
+				new Materiel(1,"materiel 1","type de matériel 1",respo),
+				new Materiel(2,"materiel 2","type de matériel 2",respo),
+				new Materiel(3,"materiel 3","type de matériel 3",respo)
 			);
 
 		TableColumn<Materiel,Integer> idMateriel = new TableColumn<>("ID");
@@ -205,19 +204,14 @@ public class mainView extends Application {
 		tableMateriel.getColumns().addAll(idMateriel,title,description);
 
 		Label materiel = new Label("Matériaux");
-		Label nbrMateriel = new Label("Vous avez 0 matériaux");
-		Button tousMateriel = new Button("Tous les matériaux");
-		Button ajouterMateriel = new Button(" + ");
+		Label nbrMateriel = new Label("Vous avez "+materiels.size()+" matériaux");
+		Button ajouterMateriel = new Button(" Ajouter un matériel ");
 		
-		HBox hbox4 = new HBox();
-		hbox4.setAlignment(Pos.CENTER);
-		hbox4.setSpacing(10);
-		hbox4.getChildren().addAll(tousMateriel,ajouterMateriel);
 		
 		VBox vbox5 = new VBox();
 		vbox5.setAlignment(Pos.CENTER);
 		vbox5.setSpacing(10);
-		vbox5.getChildren().addAll(materiel,nbrMateriel,tableMateriel,hbox4);
+		vbox5.getChildren().addAll(materiel,nbrMateriel,tableMateriel,ajouterMateriel);
 		
 		HBox hbox5 = new HBox();
 		hbox5.setAlignment(Pos.CENTER);

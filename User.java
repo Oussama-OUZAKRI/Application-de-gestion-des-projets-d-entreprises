@@ -12,6 +12,7 @@ public class User {
 	private String identifiant;
 	private String motDePasse;
 	
+	public User() {}
 	public User (String prenom, String nom, String adressePostale, long numTel, String adresseEmail, String numCarteIdentite, long numCompteBancaire, String identifiant, String motDePasse) {
 		this.prenom=prenom; this.nom=nom; this.adressePostale=adressePostale;
 		this.numTel=numTel; this.adresseEmail=adresseEmail; this.numCarteIdentite=numCarteIdentite;

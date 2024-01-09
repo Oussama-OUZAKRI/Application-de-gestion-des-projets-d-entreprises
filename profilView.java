@@ -18,10 +18,13 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class profilView extends Application {
-	String[] session = Session.getutilisateurConnecte();
+	
+	private String[] session = Session.getutilisateurConnecte();
+	
 	@Override
 	public void start(Stage stage) throws Exception {
 		
@@ -36,6 +39,9 @@ public class profilView extends Application {
 		}
 		
 		Button accueil = new Button("< Accueil");
+		accueil.setOnMouseClicked((evt)->{
+			stage.close();
+		});
 		Button modifier = new Button("Modifier");
 		
 		HBox hbox1 = new HBox();
@@ -48,6 +54,7 @@ public class profilView extends Application {
 		prenomField.setText(session[0]);
 		prenomField.setEditable(false);
 		prenomField.setMouseTransparent(true);
+		prenomField.setPrefWidth(200);
 		
 		Label nom = new Label("Nom");
 		TextField nomField = new TextField();
@@ -155,6 +162,11 @@ public class profilView extends Application {
 			numCompteBancaireField.setMouseTransparent(true);
 			identifiantField.setMouseTransparent(true);
 			motDePasseField.setMouseTransparent(true);
+			
+			mettreAJourUtilisateur(prenomField.getText(), nomField.getText(), adressePostaleField.getText(), 
+					numTelField.getText(), adresseEmailField.getText(), numCarteIdentiteField.getText(), 
+					numCompteBancaireField.getText(), identifiantField.getText(), motDePasseField.getText());
+			
 		});
 		
 		VBox vbox1 = new VBox();
@@ -168,11 +180,31 @@ public class profilView extends Application {
 		
 		Scene scene = new Scene(vbox1);
 		
+		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.setScene(scene);
 		stage.setTitle("ExecuSync Projects - Profil");
 		stage.setHeight(700);
 		stage.setWidth(400);
-		stage.show();
+		stage.showAndWait();
 		
+	}
+	
+	private void mettreAJourUtilisateur(String prenomField, String nomField, String addressePostaleField,
+			String numTelField,String adresseEmailField,String numCarteIdentiteField,
+			String numCompteBancaireField, String identifiantField, String motDePasseField) {
+
+	    UserDAO.mettreAJourUtilisateur(prenomField, nomField, addressePostaleField,
+	    		numTelField, adresseEmailField, numCarteIdentiteField, numCompteBancaireField,
+	    		identifiantField, motDePasseField);
+	    
+	    session[0] = prenomField;
+	    session[1] = nomField;
+	    session[2] = addressePostaleField;
+	    session[3] = numTelField;
+	    session[4] = adresseEmailField;
+	    session[5] = numCarteIdentiteField;
+	    session[6] = numCompteBancaireField;
+	    session[7] = identifiantField;
+	    session[8] = motDePasseField;
 	}
 }

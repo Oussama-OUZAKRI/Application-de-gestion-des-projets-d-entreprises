@@ -8,6 +8,7 @@ public class Responsable extends User {
 	private List<Projet> projets = new ArrayList<>();
 	private List<Materiel> materiels = new ArrayList<>();
 	
+	public Responsable() {}
 	public Responsable(String prenom, String nom, String adressePostale, long numTel, String adresseEmail, String numCarteIdentite, long numCompteBancaire, String identifiant, String motDePasse) {
 		super(prenom, nom, adressePostale, numTel, adresseEmail, numCarteIdentite, numCompteBancaire, identifiant, motDePasse);
 	}
